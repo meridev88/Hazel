@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Hazel {
 	
 	class HAZEL_API KeyEvent : public Event
@@ -11,7 +9,7 @@ namespace Hazel {
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
 
-		virtual int GetCategoryFlags() const override { return EventCategoryKeyboard | EventCategoryInput; }
+	EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 	protected:
 		KeyEvent(int keycode)
@@ -34,9 +32,7 @@ namespace Hazel {
 			ss << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
 		}
 
-		static EventType GetStaticType() { return EventType::KeyPressed; }
-		virtual EventType GetEventType() const override { return GetStaticType(); }
-		virtual const char* GetName() const override { return "KeyPressed"; }
+		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
 		int m_RepeatCount;
@@ -55,8 +51,6 @@ namespace Hazel {
 			return ss.str();
 		}
 
-		static EventType GetStaticType() { return EventType::KeyReleased; }
-		virtual EventType GetEventType() const override { return GetStaticType(); }
-		virtual const char* GetName() const override { return "KeyReleased"; }
+		EVENT_CLASS_TYPE(KeyReleased)
 	};
 }

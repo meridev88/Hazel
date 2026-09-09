@@ -2,10 +2,6 @@
 
 #include "Hazel/Core.h"
 
-#include <string>
-#include <functional>
-#include <ostream>
-
 namespace Hazel {
 
 	// Events in Hazel are currently blocking, meaning when an event occurs it
@@ -31,6 +27,12 @@ namespace Hazel {
 		EventCategoryMouse          = BIT(3),
 		EventCategoryMouseButton    = BIT(4)
 	};
+
+#define EVENT_CLASS_TYPE(type) 	static EventType GetStaticType() { return EventType::##type; }\
+								virtual EventType GetEventType() const override { return GetStaticType(); }\
+								virtual const char* GetName() const override { return #type; }
+
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	class HAZEL_API Event
 	{
