@@ -11,8 +11,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
+IncludeDir["ImGui"] = "Hazel/vendor/imgui"
 
 include "Hazel/vendor/GLFW"
+include "Hazel/vendor/Glad"
+include "Hazel/vendor/imgui"
 
 project "Hazel"
 	location "Hazel"
@@ -27,9 +31,16 @@ project "Hazel"
 
 	files {	"%{prj.name}/src/**.h", "%{prj.name}/src/**.cpp" }
 
-	includedirs	{ "%{prj.name}/src", "%{prj.name}/vendor/spdlog/include", "%{IncludeDir.GLFW}" }
+	includedirs
+	{
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
+	}
 
-	links { "GLFW", "opengl32.lib" }
+	links { "GLFW", "Glad", "ImGui", "opengl32.lib" }
 
 	filter "system:windows"
 		cppdialect "C++20"
@@ -38,7 +49,7 @@ project "Hazel"
 
 		buildoptions { "/utf-8"	}
 
-		defines	{ "HZ_PLATFORM_WINDOWS", "HZ_BUILD_DLL"	}
+		defines	{ "HZ_PLATFORM_WINDOWS", "HZ_BUILD_DLL", "GLFW_INCLUDE_NONE" }
 
 		postbuildcommands {	("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox") }
 
