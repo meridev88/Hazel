@@ -54,7 +54,7 @@ namespace Hazel {
 				data.Width = width;
 				data.Height = height;
 
-				WindowsResizeEvent event(width, height);
+				WindowResizeEvent event(width, height);
 				data.EventCallback(event);
 			}
 		);
@@ -93,6 +93,16 @@ namespace Hazel {
 						break;
 					}
 				}
+			}
+		);
+
+		glfwSetCharCallback(m_Window,
+			[](GLFWwindow* window, unsigned int keycode)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+				KeyTypedEvent event(keycode);
+				data.EventCallback(event);
 			}
 		);
 

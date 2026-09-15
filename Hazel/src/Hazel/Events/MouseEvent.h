@@ -11,7 +11,7 @@ namespace Hazel {
 			: m_MouseX(x), m_MouseY(y) {}
 
 		inline float getX() const { return m_MouseX; }
-		inline float getY() const { return m_MouseX; }
+		inline float getY() const { return m_MouseY; }
 
 		std::string ToString() const override
 		{
